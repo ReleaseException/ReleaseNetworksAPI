@@ -9,14 +9,18 @@ At the beginning we're offering an pretty simple method to get the content of th
 ```java
     public static String getSiteContent(String url) throws Exception {
         StringBuilder result = new StringBuilder();
-        HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
-        urlConnection.setRequestMethod("GET");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-        String content;
-        while ((content = reader.readLine()) != null) {
-            result.append(content);
+        try {
+            HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+            urlConnection.setRequestMethod("GET");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String content;
+            while ((content = reader.readLine()) != null) {
+                result.append(content);
+            }
+            reader.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
-        reader.close();
         return result.toString();
     }
 ```
