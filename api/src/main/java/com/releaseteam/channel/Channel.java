@@ -1,5 +1,7 @@
 package com.releaseteam.channel;
 
+
+import com.releaseteam.connect.ReleaseConnect;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
@@ -11,12 +13,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Channel {
 
-
     public Socket channel(boolean reconnect, int reconnectionAttempts, String userName, String UUID, String releaseAuthKey) {
         AtomicReference<Socket> socket = new AtomicReference<Socket>(null);
         CompletableFuture.supplyAsync(() -> {
 
-            URI channel = URI.create("https://chat.releaseteam.de");
+            URI channel = URI.create(ReleaseConnect.CHAT.getURL());
             IO.Options options = IO.Options.builder()
                     .setReconnection(reconnect)
                     .setSecure(true)
@@ -39,5 +40,7 @@ public class Channel {
         socket.close();
         socket.disconnect();
     }
+
+
 
 }
